@@ -1,3 +1,5 @@
+<img src="https://github.com/vrajur/Modeling-Diffusion-Limited-Aggregation/blob/master/LaTeX_Source/Header_Image.png" alt="Header Image" title="DLA Particle Cluster (Output from Simulation)">
+
 # Modeling-Diffusion-Limited-Aggregation
 Authors: Vinay Rajur
 
