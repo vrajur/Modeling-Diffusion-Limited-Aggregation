@@ -26,7 +26,7 @@ Implementation Overview:
 
 Repository Overview:
 -------------------------------------------------------------------------------
-Project Report: *Modeling Diffusion Limited Aggregation.pdf*
+**Project Report:** *Modeling Diffusion Limited Aggregation.pdf*
 
 **Source Code:** Contains C++ files which are the numerical model implementation
 	as well as MATLAB files for plotting and data analysis 
