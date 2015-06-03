@@ -16,7 +16,7 @@ Limited Aggregation.
 
 Operation Instructions:
 -------------------------------------------------------------------------------
-To run the simulation clone the *Source_Code* Directory and the file *Final.cpp*
+To run the simulation clone the *Source_Code* directory and the file *Final.cpp*
 which will output the simulation results to the file "pos.dat". Move this file
 into the same directory as plott2.m and running that script will plot the 
 particle distribution generated from the simulation and will also output the 
