@@ -57,17 +57,17 @@ Directory of Key Files:
 **Source Code/arrayt.hpp**
 - C++ array implementation supplied by professor (not authored by me)
 
-**Source Code/MATLAB (plotting)/circularity.m **
+**Source Code/MATLAB (plotting)/circularity.m**
 - Script to calculate circularity of aggregate structure
 
 **Source Code/MATLAB (plotting)/plott2.m**
 - Script to read output data file containing particle locations and produce plot
 	of aggregrate and calculate property values of the simulation
 
-**Source Code/MATLAB (plotting)/rwalkstest.m **
+**Source Code/MATLAB (plotting)/rwalkstest.m**
 - Script to analyze output data from r_walk.h
 
-**LaTex Write Up/Final Project.tex **
+**LaTex Write Up/Final Project.tex**
 - LaTeX file for project report
 
 **LaTex Write Up/Final Project.bbl**
