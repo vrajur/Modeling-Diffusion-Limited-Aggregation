@@ -16,12 +16,20 @@ Limited Aggregation.
 
 Operation Instructions:
 -------------------------------------------------------------------------------
-[TO BE COMPLETED: Brief Description on How to Use Code]
+To run the simulation clone the Source_Code Directory and the file Final.cpp 
+which will output the simulation results to the file "pos.dat". Move this file
+into the same directory as plott2.m and running that script will plot the 
+particle distribution generated from the simulation and will also output the 
+results of various analyses on the data.
 
 
 Implementation Overview:
 -------------------------------------------------------------------------------
-[TO BE COMPLETED: Semi-Detailed Overview on Implementation]
+The simulation is written in C++ and uses Monte-Carlo methods to implement a 
+series of random walks on a set number of particles. The simulation is initialized
+with a seed particle one random walker particle and at each step in the random
+walk, various conditions are checked to see if the random walker will bind to the
+aggregate in its current position.
 
 
 Repository Overview:
@@ -37,7 +45,7 @@ Repository Overview:
 Directory of Key Files:
 -------------------------------------------------------------------------------
 
-**Source Code/final.cpp**
+**Source Code/Final.cpp**
 - Script to initialize parameters, run DLA simulation, and output particle 
 	locations to text file 
 	
