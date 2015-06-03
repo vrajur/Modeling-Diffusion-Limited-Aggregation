@@ -32,6 +32,10 @@ Source Code: Contains C++ files which are the numerical model implementation
 LaTeX Source: Contains LaTeX source files used for creating the project report
 
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> origin/master
 List of Key Files:
 -------------------------------------------------------------------------------
 [TO BE COMPLETED: Key Files and Descriptions]
