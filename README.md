@@ -12,7 +12,7 @@ Limited Aggregation.
 -------------------------------------------------------------------------------
 Operation Instructions:
 -------------------------------------------------------------------------------
-[Brief Description on How to Use Code]
+[TO BE COMPLETED: Brief Description on How to Use Code]
 
 -------------------------------------------------------------------------------
 Implementation Overview:
