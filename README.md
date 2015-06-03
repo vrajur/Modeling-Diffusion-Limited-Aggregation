@@ -17,11 +17,16 @@ Operation Instructions:
 -------------------------------------------------------------------------------
 Implementation Overview:
 -------------------------------------------------------------------------------
-[Semi-Detailed Overview on Implementation]
+[TO BE COMPLETED: Semi-Detailed Overview on Implementation]
+
+-------------------------------------------------------------------------------
+Repository Overview:
+-------------------------------------------------------------------------------
+[TO BE COMPLETED: Brief Description on Repository Organization]
 
 -------------------------------------------------------------------------------
 List of Key Files:
 -------------------------------------------------------------------------------
-[Key Files and Descriptions]
+[TO BE COMPLETED: Key Files and Descriptions]
 
 
