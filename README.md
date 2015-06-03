@@ -27,9 +27,11 @@ Implementation Overview:
 -------------------------------------------------------------------------------
 The simulation is written in C++ and uses Monte-Carlo methods to implement a 
 series of random walks on a set number of particles. The simulation is initialized
-with a seed particle one random walker particle and at each step in the random
+with a seed particle and one random walker particle. At each step in the random
 walk, various conditions are checked to see if the random walker will bind to the
-aggregate structure in its current position.
+aggregate structure in its current position. Once the particle is bound a new 
+random walker is randomly initialized. The simulation runs until a set number of 
+particles are bound.
 
 
 Repository Overview:
