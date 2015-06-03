@@ -1,0 +1,75 @@
+\begin{thebibliography}{10}
+
+\bibitem{bourke2006constrained}
+Paul Bourke.
+\newblock Constrained diffusion-limited aggregation in 3 dimensions.
+\newblock {\em Computers \& Graphics}, 30(4):646--649, 2006.
+
+\bibitem{einstein}
+Albert Einstein.
+\newblock {\em Investigations on the Theory of the Brownian Movement}.
+\newblock DoverPublications. com, 1956.
+
+\bibitem{goodflake}
+Janko Gravner and David Griffeath.
+\newblock Modeling snow crystal growth ii: A mesoscopic lattice map with
+  plausible dynamics.
+\newblock {\em Physica D: Nonlinear Phenomena}, 237(3):385--404, 2008.
+
+\bibitem{dlawebsite}
+Thomas~C Halsey.
+\newblock Diffusion-limited aggregation: a model for pattern formation.
+\newblock {\em Physics Today}, 53(11):36--41, 2000.
+
+\bibitem{lewis}
+Michael~J Lewis.
+\newblock Analysis of the n-dimensional snowflake.
+\newblock {\em MIT Undergraduate Journal of Mathematics}, 2009.
+
+\bibitem{retina}
+Martin~A Mainster.
+\newblock The fractal properties of retinal vessels: embryological and clinical
+  implications.
+\newblock {\em Eye}, 4(1):235--241, 1990.
+
+\bibitem{stick1}
+Takashi Nagatani and H~Eugene Stanley.
+\newblock Double-crossover phenomena in laplacian growth: Effects of sticking
+  probability and finite viscosity ratio.
+\newblock {\em Physical Review A}, 41(6):3263, 1990.
+
+\bibitem{nitt}
+J~Nittmann and H~Eugene Stanley.
+\newblock Non-deterministic approach to anisotropic growth patterns with
+  continuously tunable morphology: the fractal properties of some real
+  snowflakes.
+\newblock {\em Journal of Physics A: Mathematical and General}, 20(17):L1185,
+  1987.
+
+\bibitem{localrules}
+Bogdan Ranguelov, Desislava Goranova, Vesselin Tonchev, and Rositsa Yakimova.
+\newblock Diffusion limited aggregation with modified local rules.
+\newblock {\em arXiv preprint arXiv:1105.5558}, 2011.
+
+\bibitem{stick2}
+Subir~K Sarkar.
+\newblock Saffman-taylor instability and pattern formation in diffusion-limited
+  aggregation.
+\newblock {\em Physical Review A}, 32:3114--3116, 1985.
+
+\bibitem{fractaldim}
+James Theiler.
+\newblock Estimating fractal dimension.
+\newblock {\em JOSA A}, 7(6):1055--1073, 1990.
+
+\bibitem{vic}
+Tamas Vicsek.
+\newblock Pattern formation in diffusion-limited aggregation.
+\newblock {\em Physical review letters}, 53(24):2281, 1984.
+
+\bibitem{originalDLA}
+TA~Witten~Jr and Leonard~M Sander.
+\newblock Diffusion-limited aggregation, a kinetic critical phenomenon.
+\newblock {\em Physical review letters}, 47(19):1400, 1981.
+
+\end{thebibliography}

@@ -1,0 +1,425 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% University/School Laboratory Report
+% LaTeX Template
+% Version 3.0 (4/2/13)
+%
+% This template has been downloaded from:
+% http://www.LaTeXTemplates.com
+%
+% Original author:
+% Linux and Unix Users Group at Virginia Tech Wiki 
+% (https://vtluug.org/wiki/Example_LaTeX_chem_lab_report)
+%
+% License:
+% CC BY-NC-SA 3.0 (http://creativecommons.org/licenses/by-nc-sa/3.0/)
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+
+\documentclass{article}
+
+% \usepackage[version=3]{mhchem} % Package for chemical equation typesetting
+%\usepackage{siunitx} % Provides the \SI{}{} command for typesetting SI units
+
+\usepackage{graphicx} % Required for the inclusion of images
+\usepackage{epstopdf} % Include .eps files
+\usepackage[hidelinks]{hyperref} % For inclusion of urls
+\usepackage{mathtools}	% For inclusion of \align environment (instead of eqnarray)
+\usepackage{listings} % for Source Code Listing
+\usepackage{color}	  % Colors
+\usepackage{caption}  % Captions
+\usepackage{subcaption}  % Subfigure Captions
+
+\usepackage{booktabs} % For table formatting
+
+\usepackage{enumitem} % Customize enumerate environment
+\usepackage{appendix} % For making an Appendix
+\usepackage{natbib} 	% Bibliography styles
+%\setlength\parindent{0pt} % Removes all indentation from paragraphs
+
+% \renewcommand{\labelenumi}{\alph{enumi}.} % Make numbering in the enumerate environment by letter rather than number (e.g. section 6)
+
+%\usepackage{times} % Uncomment to use the Times New Roman font
+
+\definecolor{mygreen}{rgb}{0,0.6,0}
+\definecolor{mygray}{rgb}{0.5,0.5,0.5}
+
+\lstset{
+	basicstyle = \footnotesize,
+	commentstyle = \color{mygreen},
+	frame = single,
+	numbers = left,
+	tabsize = 2,
+	breaklines = true
+}
+
+
+%----------------------------------------------------------------------------------------
+%	DOCUMENT INFORMATION
+%----------------------------------------------------------------------------------------
+
+\title{Diffusion Limited Aggregation: Crystal Formation} % Title
+
+\author{Vinay Rajur (vsr7)} % Author name
+
+%\date{\today} % Date for the report
+\date{December 16, 2013} % Date for the report
+
+\begin{document}
+
+\maketitle % Insert the title, author and date
+
+\begin{center}
+\begin{tabular}{l r}
+Course: & AEP 4380 \\ % Date the experiment was performed
+Instructor: & Professor Kirkland % Instructor/supervisor
+\end{tabular}
+\end{center}
+
+% If you wish to include an abstract, uncomment the lines below
+\begin{abstract}
+This paper explores the properties of crystal formation using a Diffusion Limited Aggregation (DLA) Model. Through simulating various conditions under which crystals and other aggregates may form, several classifications were defined based on relative clustering, apparent symmetries and characteristic visual cues. Limitations of the DLA Model and the classification of crystals are also discussed.\\
+\end{abstract}
+
+%----------------------------------------------------------------------------------------
+%	SECTION 1
+%----------------------------------------------------------------------------------------
+
+\section{Introduction}
+
+The presence of pattern formation in nature, the seemingly impossible feat of creating order from random and disordered processes, in an inherently captivating and intriguing phenomenon. For scientists it is a topic of great interest as well, and creating models to describe these processes has the potential to reveal the much of nature's inner workings.
+
+One model in particular that has received a great deal attention over the past couple decades is the Diffusion-Limited Aggregation (DLA) Model, a deceptively simple stochastic growth model that accurately simulates the growth patterns of objects ranging from snowflakes to entire galaxies. Originally proposed by Witten and Sander in 1981, they developed a simple algorithm to model the growth of clusters in aerosols using diffusion and Brownian motion as the main transport process governing particle behavior \cite{originalDLA}. 
+
+The simplest form of their model starts with an immobile seed particle located at the center of a lattice. At each iteration, a random walker particle is released into the lattice until it reaches a grid spot adjacent to an immobile particle, at which point, the walker becomes immobilized as well. This process is repeated for a set number of particles and the end result is a fractal (self-similar) growth pattern, which is seen in many natural aggregates as well (one such example is shown in Fig. \ref{DLA_Cluster}). The complex patterns this model is capable of producing, the accuracy of its results and the simplicity in implementing this algorithm are the key advantages for the DLA Model, and this has been the major influence and drawn significant attention in further researching the additional applications of this type of simulation.
+
+\begin{figure}[h]
+\begin{center}
+	\includegraphics[width=0.65\textwidth]{DLA_Cluster}
+	\caption{A DLA Cluster of Copper Sulfate grown by electrodeposition. (Image Courtesy: 
+	\url{http://upload.wikimedia.org/wikipedia/commons/b/b8/DLA_Cluster.JPG)}}
+	\label{DLA_Cluster}
+\end{center}
+\end{figure}
+
+Over the years, many variations of this simple DLA algorithm have been developed to model a vast array of physical growth processes. For example, varying the lattice geometry has allowed researchers to accurately simulate snowflake growth \cite{nitt}, or even through creating a distribution of seed particles and varying the diffusion properties, one can model the growth of blood vessels in the human retina \cite{retina}; clearly there is a wide variety of parameters to expand upon and manipulate with this algorithm. Therefore, what this paper focuses on is the development of an accurate 2D model for crystal growth using a continuous surface (i.e. no lattice). Furthermore by incorporating and testing several different sticking probability distributions, I aim to develop generalized classes for different types of aggregate structures based upon fractal dimension, number volume density, apparent symmetries and characteristic visual cues. Additionally, I seek to determine the feasibility of and minimum criteria needed for defining these classes of aggregates.
+
+ 
+%----------------------------------------------------------------------------------------
+%	SECTION 2
+%----------------------------------------------------------------------------------------
+
+\section{Theory}
+
+
+\subsection{Random Walk Behavior in the DLA Model:}
+
+As the name suggests, the motion of particles in the DLA Model is assumed to be governed entirely by diffusion through the containing medium. The density distribution $U(\rho,t)$ in cylindrical coordinates is given by the equation:
+
+\begin{equation}
+	\frac{\partial U(\rho,t)}{\partial t} = D \nabla^2 U(\rho,t) 
+	\label{fick}
+\end{equation}
+
+where D is the diffusion constant, which gives insight into the characteristic length and velocity of particle motion. Solving Eq. \ref{fick} for $U(\rho,t)$ yields the result:
+
+\begin{equation}
+	U(\rho,t) = U_0 \frac{2 \pi \rho}{4 \pi Dt}e^{ \frac{\rho^2}{4Dt}}
+	\label{gauss}
+\end{equation}
+
+This result for the density distribution is a Gaussian curve centered at the origin that spreads out in time (as particles diffuse farther away). Additionally, as Einstein established in a paper written in 1905, the mechanism underlying this diffusion process is Brownian motion of particles, the seemingly random path taken by particles suspended in some solution \cite{einstein}. Therefore in the DLA Model, the movement of the unbound aggregate particles can be simulated by a random walk, adhering the ``Diffusion-Limited'' constraint of the model. 
+
+One caveat to consider, however, is the that when fixing the seed particle at the center of the coordinate system, we are essentially shifting into the seed particle's frame of motion, and since a general model for DLA should assume that the seed is also undergoing Brownian motion, one would assume that the motion of all other particles must be transformed into the seed's frame of reference as well. Fortunately, since the motion of one Brownian particle is independent of the motion of another, the random walk behavior of the unbound particles is preserved, and so it is still accurate to describe the motion of the unbound particles by a random walk.\\
+
+\subsection{Sticking Probability:}
+
+One physical variation that can be applied to the DLA Model is the inclusion of a sticking probability, or the probability that a walker will bind itself to the aggregate after coming into contact with it. A nearly infinite variety of functions can be applied to the walker particles, however, the ones used for this experiment were the following: \\
+
+\begin{enumerate} 
+	\item{Constant probability:
+
+\begin{equation}
+	p = C
+\label{p:coeff}
+\end{equation}
+
+	where $C \in [0,1]$.
+	\label{itm1}} \pagebreak
+	\item {Probability dependent on the number of neighboring particles\\
+	
+\begin{equation}
+	p = A - B\frac{n_1}{n_2}
+\label{p:neighbor}
+\end{equation}
+
+	where $A$ and $B$ are set parameters,\\ $n_1$ is the number of particles in a $\frac{L}{2} \times \frac{L}{2}$ box around the Brownian particle,\\ $n_2$ is the number of particles in a $L \times L$ box around the Brownian particle.
+	\label{itm2}}
+	\item{Probability dependent on the local curvature at the point of contact \cite{vic} 
+	
+\begin{equation}
+	p = A(n_L - n_0) + B
+\label{p:curvature}
+\end{equation}
+	
+	where $A$ and $B$ are set parameters,\\
+	$n_L$ is the normalized number of particles in a $L \times L$ box (e.g. $\frac{N_L}{L^2}$)\\
+	$n_0 = \frac{L-1}{2L}$ corresponds to a flat contact surface.
+	\label{itm3}} 
+	\end{enumerate}
+
+\noindent Of these probability functions, the constant probability function \ref{itm1} is the simplest, and physical interpretation for this is that every particle has some set likelihood of binding to the aggregate at each point of contact (and conversely there is some fixed probability of the particle continuing to diffuse as well). 
+
+This type of probability dependence easily demonstrates the implications of including a sticking probability into our DLA Model. For a low sticking probability, random walkers will tend to pass through regions of low particle density and will more likely accumulate in regions of high particle density; therefore in this scenario aggregates will form dense clumps will appear more condensed and ``filled in''. The opposite is true for a high sticking probability, as the diffusing particles will immediately bind to any part of the aggregate that it comes into contact with. Thus, the end result in this case is a wispier, more spread out aggregate structure (see Figure \ref{sticky}). 
+
+\begin{figure}[ht!]
+\begin{center}
+	\includegraphics[width=\textwidth]{sticky.eps}
+	\caption{Aggregates grown with various constant sticking probability values (from left to right): $p = \left\{ 0.01, 0.1, 0.5, 1.0 \right\}$. As the probability increases, the collections tend to become more tenuous and branched, occupying larger regions of space, and the opposite is true as the sticking probability decreases. Each aggregate contains $N=1000$ particles.}
+	\label{sticky}
+\end{center}
+\end{figure}
+
+This concept can be extrapolated to explain the local behavior of any arbitrary sticking probability function, due to the self-similar nature of aggregates formed by DLA. Regions of low sticking probability will result in denser patterns, while regions with high sticking probability will result in more tenuous growth patterns. This local rule will always apply when considering the results produced by using other probability functions (such as the proposed functions \ref{itm2} and \ref{itm3}), and overall impact these functions will have on the total aggregate structure stem from manipulating the locations of these regions of high and low particle density (due to manipulating the sticking probability). Thus, the properties of aggregates formed with a constant sticking probability are similar to the local probabilities of aggregates with more complex sticking probability functions. 
+
+
+%----------------------------------------------------------------------------------------
+%	SECTION 3
+%----------------------------------------------------------------------------------------
+
+\section{My Algorithm for Simulating 2D Crystal Growth}
+
+
+\subsection{Assumptions: \label{assumptions}}
+
+In order to simplify the implementation of the DLA Model described in this section, the following assumptions were made:
+
+\begin{enumerate}
+	\item{Simulated particles undergo simple 2D Brownian motion, thus there is no motion or aggregation in the $\hat{z}$ direction\footnote{This is not entirely true in this implementation model, since particles were allowed to overlap. This effect was small, however, except for in areas of very high particle density so the general behavior of the DLA Model was still 2 dimensional}. Additionally, particle displacements are of constant step size but with a continuous range in direction (and so particles have an approximately continuous motion).
+	\label{assume1}}
+	
+	\item{Aggregate member particles have some attractive potential well surrounding them, inside of which walker particles are likely to bind to the aggregate. The probability of binding and the functional dependence of this potential well is described by the sticking probability.
+	\label{assume2}}
+	
+	\item{In conjunction with \ref{assume1}, particles have no inherent directional preference in binding (circular symmetry of system).
+	\label{assume3}}
+	
+	\item{Particles are stably bound, thus decrystallization effects (such as thermal activity, momentum transfer during binding, coulomb force interaction, etc.) are negligible.
+	\label{assume4}}
+	
+\end{enumerate}
+
+\noindent These assumptions, while not all are entirely physical, are still representative of a true DLA system that one would observe in an experimental setting, simplifying the implementation while preserving the behavior of the model.
+
+
+\subsection{The Algorithm:}
+
+In my implementation of DLA Model (presented in Appendix \ref{source}), I created the simulation on an arbitrary scale with the basic unit length being the particle diameter. Since Particle diameter, step size, binding radius, bias (see \ref{bias}) and other parameters are all relatively defined without reference to any physical constants or absolute reference, the following implementation is a general model for Diffusion Limited Aggregation that can be applied to DLA processes on any length scale\footnote{Although the type of model I based this implementation off of was an electrodeposition model}.
+
+For the simulations I ran, I initialized the aggregate with a single seed particle placed at the center of the coordinate system. With each iteration, a random walker particle is initialized at some point along the circumference of a circle that spans the entire aggregate, and the particle undergoes Brownian motion until it binds to the aggregate. For typical simulation with about 1000 particles and constant sticking probability $\rho \in [.25, .75]$, each particle reaches its final state after around 50,000-150,000 steps\footnote{This range of values defines the average number of steps each individual walker particle takes until it binds. Physically, these particles will move in parallel, however, this simulation is for dilute particle concentrations such that the particles can be simulated as arriving one at a time.}, although due to the nature of the algorithm, these values are subject to significant statistical fluctuations. The entire binding process for single particle undergoes is composed of two main steps:
+
+\begin{enumerate}
+	
+	\item{ \textit{Diffusion}:\\
+		Diffusion is the result of Brownian motion, which this model simulates by using Monte Carlo methods to generate a random walk. 		Each step the particle takes is of a fixed size, however the particle has full directional freedom; thus in this simulation, the particle has a continuous range of motion. After each step, the particle is evaluated as being either bound or not. If the particle is evaluated as unbound, it will continue to diffuse.
+	\label{step1}}
+	
+	\item{	\textit{Binding}:\\
+		Binding occurs when two conditions are met: a) the particle is within the binding radius of some member of the aggregate and b) the particle is evaluated with some probability as being bound or not (where the probability is generated from the sticking probability function). Only once both conditions are met will the particle stop diffusing and bind to the aggregate. The binding process used in this model is rather simple (perhaps overly simple) where the newly bound particle simply stops in its place. This is slightly unphysical since it allows for overlapping particles, but it can be easily remedied in future updates or implementations by simply adding in a setting method (that ``sets'' the particle in the closest position that maximizes its sticking probability). The correction by inclusion of a setting method is small, however, and the results of this simulation are generally unaffected as the system scales to larger particle counts.
+	\label{step2}}
+	
+\end{enumerate}
+
+\noindent One feature included in this implementation is the presence of a killing distance. As mentioned previously, particles that diffuse beyond this distance are reinitialized and this serves to prevent wasted computing time and to increase the convergence of the random walks. Additional considerations to improve the processing time include increasing the step size (up to a limit), setting a lower bound on the sticking probability function and the use of a bias parameter (described further in Appendix \ref{bias}).
+
+%----------------------------------------------------------------------------------------
+%	SECTION 4
+%----------------------------------------------------------------------------------------
+
+\section{Results}
+
+The results of simulations run under various conditions are included in this section. The code presented in Appendix \ref{source} allowed for the parametrization of many of the aspects of the DLA Model described earlier. Thus, a sampling of aggregates were simulated in an attempt to derive any meaningful means of quantifying and ultimately classifying the aggregate structures observed. Some of the values computed in for these aggregates were fractal dimension, average number density, circularity and additionally the distribution of all aggregate member distances from the seed particle was determined as well. In general, all aggregates demonstrated approximate relative circular symmetry (the average circularity for all observed aggregates was $0.722 \pm 0.099$), which is to be expected due to the circular symmetry of the simulation (see \ref{assumptions} Assumptions \ref{assume1}, \ref{assume3}).
+
+
+\begin{figure}
+\begin{center}
+	\includegraphics[width=\textwidth]{neigh_1005.eps}
+	\caption{DLA simulation for $N=2000$ particles using a neighbor dependent sticking probability (Eq. \ref{p:neighbor}) with A = 1.0 and B = 0.5. }
+	\label{fig:neigh}
+\end{center}
+\end{figure}
+
+The sample of aggregates studied were 
+
+
+\begin{figure}
+\begin{center}
+	\includegraphics[width=\textwidth]{curve_10005.eps}
+	\caption{DLA simulation for $N=2000$ particles using a sticking probability dependent on the local curvature at the point of contact (Eq. \ref{p:curvature}) with A = 10.0 and B = 0.5. }
+	\label{fig:curve}
+\end{center}
+\end{figure}
+
+
+\begin{figure}[ht!]
+\begin{center}
+	\includegraphics[width=\textwidth]{fd_p.eps}
+	\caption{}
+	\label{fd_P}
+\end{center}
+\end{figure}
+
+
+
+%----------------------------------------------------------------------------------------
+%	SECTION 5
+%----------------------------------------------------------------------------------------
+
+\section{Conclusions: \label{conclusions}}
+
+The results of this DLA simulator are clear, and despite being slightly oversimplified in a few of its assumptions, the aggregates generated are still remarkably similar to the physical aggregates observed in experiments. Additionally, the inclusion of a sticking probability allowed pattern formation in theses aggregates to be studied under various conditions, although it was observed that aggregates formed under higher sticking probabilities were physically more accurate than under low sticking probability conditions.
+
+One of the major secondary objectives of this study was to determine the relevant parameters that characterize an aggregate and furthermore to determine the feasibility of creating classes of aggregate structures. After observing these aggregates being formed under various conditions, only a few relevant parameters were determined, and these where fractal dimension, number density, mean radius, and circularity. In conjunction with one another, these values give reasonable insight into the distribution of the aggregate members, and we can begin to see relationships between these values and certain patterns in the aggregate structure. These different parameters, create a means of studying and comparing different aggregates. As a means of classifying these aggregates, however, they are insufficient. For example, Figure \ref{fd_P} showed that on average as the sticking probability varied (occasionally resulting in dramatically different aggregate patterns) the fractal dimension remained relatively constant, despite being a relevant characterization parameter. Thus, patterns formed in DLA structures are subject to an overwhelming amount of statistical variation and the aggregates observed in these simulations would blur over any hard definitions formed on these parameters alone. 
+
+One potential source of the average homogeneity of these aggregates not accounted for in this simulation was the lack of anisotropy during the binding process. In this simulation, this was a result of the continuous and circular symmetry present in the particle motion and binding process. Simulators built on the geometry of a square or hexagonal lattice, for example, have observed various symmetries, which can be attributed restricted nature of the particle behavior in these simulations \cite{vic} \cite{goodflake}. Therefore the comparison of the resulting symmetries between aggregates formed on various lattice geometries may be an interesting point of further research, and could potentially be an additional relevant parameter in characterizing an aggregate. 
+
+
+
+%----------------------------------------------------------------------------------------
+%	BIBLIOGRAPHY/REFERENCES
+%----------------------------------------------------------------------------------------
+\pagebreak
+
+\bibliographystyle{plain}
+
+\nocite{*}
+
+\bibliography{refs}
+
+%----------------------------------------------------------------------------------------
+%----------------------------------------------------------------------------------------
+%	SECTION 6
+%----------------------------------------------------------------------------------------
+
+\begin{appendix}
+
+\appendixpage
+%\section{Additional Figures: \label{add_figs}}
+
+\section{Bias: \label{bias}}
+
+	The bias parameter was initially included as a means of speeding up the convergence of walker particles towards the aggregate, however, it is observed to have physical implications as well. The bias parameter is controls the magnitude of a constant displacement towards the origin that is added to the net displacement at each step. Thus, the bias simulates the effect of having a constant radial force which attracts the walkers. 
+	
+\begin{figure}[ht!]
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.95\linewidth]{bias_0005.eps}
+  \caption[width = .95\linewidth]{Bias = 0.0}
+  \label{bias1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=.95\linewidth]{bias_0105.eps}
+	\caption[width = .95\linewidth]{Bias = 0.1}
+  \label{bias2}
+\end{subfigure}
+\caption{Comparison of the effects of the bias parameter. In both cases, aggregates were grown with constant sticking probability $p = 0.5$. Notice how, with a bias applied, aggregate members are more evenly distributed throughout the occupied area and the overall distribution is more compact. Simulated for $N = 1000$ particles.}
+\label{fig:bias}
+\end{figure}
+
+As Figure \ref{fig:bias} shows, the inclusion of even a slight bias has immediately noticeable effects on the particle distribution within the aggregate. The most immediate observation is the lack of branching, a feature that is much more apparent in the Bias = 0 simulation. Further characterizing these two aggregates, other noticeable differences present themselves, such as the the compactness of the aggregate in \ref{bias2} (given by average distance $\bar{r} = 5.1$ and particle density $\rho = 37.1$ compared to $\bar{r} = 7.3$ and $\rho = 18.6$ for \ref{bias1}). Additionally, the circularity of the \ref{bias2} is .92 whereas the circularity for \ref{bias1} is .70. These, stark differences in values for these aggregates show that the effects of even a slight bias are significant.Even in terms of processing time and convergence speed, the bias parameter significantly increased the convergence speed of the algorithm reducing the total number of iterations from 373,976 (with no bias) down to 43,419 (with slight bias).
+
+The effect of this bias parameter opens the door to further topics to explore in future implementations of this simulation. For example, it would be quite interesting to study DLA in the presence of other field geometries, such aggregation in the presence of a tangential force (in the $\hat{\theta}$ direction as opposed to force in the currently implemented $\hat{r}$ direction) which could lead to spiral-like patterns. 
+
+\section{Sample Data: \label{data}}
+
+
+% Table generated by Excel2LaTeX from sheet 'Sheet1'
+\begin{table}[htbp]
+  \centering
+  \caption{Add caption}
+    \begin{tabular}{rrrrrrrrrrrrrrr}
+    \toprule
+          &       &       &       &       & \multicolumn{10}{c}{p = 0.01} \\
+    \midrule
+          &       & Mean  & St. Dev. &       &       &       &       &       &       &       &       &       &       &  \\
+    <r>   &       & 1.878887 & 0.181816 &       & 1.699265 & 1.902614 & 1.740907 & 2.19322 & 2.098712 & 1.837946 & 1.652783 & 2.015 & 1.721222 & 1.927203 \\
+    <t>   &       & 82474.82 & 13725.67 &       & 92109.19 & 66140 & 93777 & 86450 & 87870 & 66547 & 69698 & 98574 & 97383 & 66200 \\
+    Density &       & 290.26 & 53.83976 &       & 346.32 & 276.24 & 329.95 & 207.89 & 227.03 & 296.03 & 366.07 & 246.29 & 337.54 & 269.24 \\
+    rmax  &       & 4.745631 & 0.52132 &       & 4.274 & 4.406 & 5.182677 & 5.412 & 5.37124 & 4.11826 & 4.247601 & 5.171106 & 4.293666 & 4.979759 \\
+    Circularity &       & 0.807827 & 0.056796 &       & 0.813679 & 0.887108 & 0.861228 & 0.864627 & 0.838338 & 0.792616 & 0.733112 & 0.746053 & 0.811528 & 0.729982 \\
+    Characteristic Length & 142.79 &       &       &       &       &       &       &       &       &       &       &       &       &  \\
+          &       &       &       &       &       &       &       &       &       &       &       &       &       &  \\
+          &       &       &       &       & \multicolumn{10}{c}{p = 0.1} \\
+          &       & Mean  & St. Dev. &       &       &       &       &       &       &       &       &       &       &  \\
+    <r>   &       & 4.614607 & 0.175134 &       & 4.594161 & 4.467733 & 4.710466 & 4.491681 & 4.850336 & 4.665068 & 4.412277 & 4.422302 & 4.611312 & 4.920736 \\
+    <t>   &       & 78262 & 18361.7 &       & 70360 & 74502 & 56495 & 78344 & 64978 & 78119 & 65323 & 119963 & 76339 & 98197 \\
+    Density &       & 47.1379 & 3.491457 &       & 47.38 & 50.1  & 45.06 & 49.56 & 42.51 & 45.95 & 51.36 & 51.13 & 47.03 & 41.29903 \\
+    rmax  &       & 10.62307 & 0.968741 &       & 10.417 & 10.41821 & 11.32905 & 10.50774 & 12.94739 & 9.800517 & 9.588061 & 9.919965 & 10.33221 & 10.97055 \\
+    Circularity &       & 0.720795 & 0.118113 &       & 0.746466 & 0.656378 & 0.819956 & 0.755507 & 0.583314 & 0.754901 & 0.770428 & 0.865359 & 0.471302 & 0.784336 \\
+    Characteristic Length & 139.3 &       &       &       &       &       &       &       &       &       &       &       &       &  \\
+          &       &       &       &       &       &       &       &       &       &       &       &       &       &  \\
+          &       &       &       &       & \multicolumn{10}{c}{p = 0.25} \\
+          &       & Mean  & St. Dev. &       &       &       &       &       &       &       &       &       &       &  \\
+    <r>   &       & 6.206999 & 0.211136 &       & 6.110323 & 6.183695 & 6.520792 & 6.419263 & 5.724877 & 6.174004 & 6.163836 & 6.268179 & 6.300026 & 6.204999 \\
+    <t>   &       & 74976.1 & 23724.19 &       & 69425 & 107460 & 67779 & 70041 & 95843 & 64276 & 81640 & 37049 & 47704 & 108544 \\
+    Density &       & 26.04078 & 1.863252 &       & 26.78377 & 26.15194 & 23.51794 & 24.26776 & 30.51179 & 26.23441 & 26.32072 & 25.45172 & 25.19506 & 25.97267 \\
+    rmax  &       & 13.42167 & 0.852675 &       & 13.38925 & 13.37549 & 15.14934 & 13.3723 & 13.53112 & 13.52933 & 11.97708 & 13.01515 & 12.63986 & 14.23783 \\
+    Circularity &       & 0.763463 & 0.068235 &       & 0.786466 & 0.619741 & 0.778163 & 0.814639 & 0.85554 & 0.690363 & 0.746823 & 0.747856 & 0.822234 & 0.772805 \\
+    Characteristic Length & 135.39 &       &       &       &       &       &       &       &       &       &       &       &       &  \\
+          &       &       &       &       &       &       &       &       &       &       &       &       &       &  \\
+          &       &       &       &       & \multicolumn{10}{c}{p = 0.5} \\
+          &       & Mean  & St. Dev. &       &       &       &       &       &       &       &       &       &       &  \\
+    <r>   &       & 7.562778 & 0.415017 &       & 6.964248 & 7.203758 & 7.722697 & 8.400507 & 7.507008 & 7.705473 & 7.326132 & 7.420196 & 7.814987 &  \\
+    <t>   &       & 93528.33 & 36828.52 &       & 75490 & 80249 & 109358 & 125240 & 120747 & 118474 & 134487 & 32785 & 44925 &  \\
+    Density &       & 17.62005 & 1.865095 &       & 20.61824 & 19.27001 & 16.76726 & 14.17062 & 17.7446 & 16.8423 & 18.63162 & 18.16223 & 16.37358 &  \\
+    rmax  &       & 16.00884 & 1.536601 &       & 14.02484 & 14.6952 & 17.01843 & 18.57563 & 14.97962 & 17.81017 & 15.66533 & 14.96696 & 16.34342 &  \\
+    Circularity &       & 0.691915 & 0.072349 &       & 0.749603 & 0.754287 & 0.65576 & 0.78146 & 0.637909 & 0.77092 & 0.638357 & 0.582001 & 0.656934 &  \\
+    Characteristic Length & 151.19 &       &       &       &       &       &       &       &       &       &       &       &       &  \\
+          &       &       &       &       &       &       &       &       &       &       &       &       &       &  \\
+          &       &       &       &       & \multicolumn{10}{c}{p = 0.75} \\
+          &       & Mean  & St. Dev. &       &       &       &       &       &       &       &       &       &       &  \\
+    <r>   &       & 8.501541 & 0.403492 &       & 8.272333 & 8.568227 & 8.226243 & 8.421975 & 8.178313 & 8.48436 & 9.464943 & 8.159827 & 8.347019 & 8.892168 \\
+    <t>   &       & 111973.3 & 28866.56 &       & 105505 & 124656 & 126807 & 128340 & 141628 & 128819 & 74364 & 79819 & 144250 & 65545 \\
+    Density &       & 13.88823 & 1.234468 &       & 14.61316 & 13.62129 & 14.77736 & 14.09847 & 14.95108 & 13.89191 & 11.16256 & 15.0189 & 14.35282 & 12.39475 \\
+    rmax  &       & 17.88367 & 1.007205 &       & 17.31841 & 16.90782 & 17.69261 & 17.38931 & 16.6869 & 18.32567 & 18.54281 & 17.4523 & 20.13745 & 18.38345 \\
+    Circularity &       & 0.684356 & 0.136055 &       & 0.77685 & 0.684195 & 0.66645 & 0.77686 & 0.480721 & 0.807132 & 0.451317 & 0.841804 & 0.597038 & 0.761192 \\
+    Characteristic Length & 168.37 &       &       &       &       &       &       &       &       &       &       &       &       &  \\
+          &       &       &       &       &       &       &       &       &       &       &       &       &       &  \\
+          &       &       &       &       & \multicolumn{10}{c}{p = 1.0} \\
+          &       & Mean  & St. Dev. &       &       &       &       &       &       &       &       &       &       &  \\
+    <r>   &       & 9.394982 & 0.833224 &       & 9.21054 & 8.751541 & 8.555182 & 8.821232 & 11.386 & 8.97481 & 9.063311 & 10.02987 & 9.728016 & 9.429316 \\
+    <t>   &       & 138017.6 & 68030.42 &       & 190146 & 41185 & 126975 & 98155 & 135082 & 73234 & 86781 & 269771 & 190142 & 168705 \\
+    Density &       & 11.54414 & 1.765577 &       & 11.78772 & 13.05662 & 13.66286 & 12.87713 & 7.713615 & 12.41508 & 12.1738 & 9.940519 & 10.56699 & 11.24708 \\
+    rmax  &       & 20.31463 & 3.087495 &       & 21.95884 & 17.23877 & 15.40729 & 19.27629 & 24.20221 & 18.21945 & 20.8138 & 25.4561 & 21.35462 & 19.21889 \\
+    Circularity &       & 0.750503 & 0.083498 &       & 0.756084 & 0.777108 & 0.779398 & 0.720639 & 0.733268 & 0.762393 & 0.806165 & 0.549176 & 0.87762 & 0.74318 \\
+    Characteristic Length & 186.74 &       &       &       &       &       &       &       &       &       &       &       &       &  \\
+    \bottomrule
+    \end{tabular}%
+  \label{tab:addlabel}%
+\end{table}%
+
+
+
+
+\section{Source Code Listings: \label{source}}
+	
+	\lstinputlisting[language=C++]{Final.cpp}
+
+	\lstinputlisting[language=C++]{p_coeff.h}
+
+	\lstinputlisting[language=C++]{p_neighbors.h}
+
+	\lstinputlisting[language=C++]{p_curvature.h}
+
+	\lstinputlisting[language=C++]{r_walk.h}
+\end{appendix} 
+
+
+%----------------------------------------------------------------------------------------
+
+\end{document}
