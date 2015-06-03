@@ -1,5 +1,6 @@
 # Modeling-Diffusion-Limited-Aggregation
 Authors: Vinay Rajur
+
 Last Updated: 6/3/2015
 
 
