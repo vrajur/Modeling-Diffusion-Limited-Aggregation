@@ -32,8 +32,48 @@ Source Code: Contains C++ files which are the numerical model implementation
 LaTeX Source: Contains LaTeX source files used for creating the project report
 
 
-List of Key Files:
+Directory of Key Files:
 -------------------------------------------------------------------------------
-[TO BE COMPLETED: Key Files and Descriptions]
+
+Source Code/final.cpp
+--- Script to initialize parameters, run DLA simulation, and output particle 
+	locations to text file 
+	
+Source Code/r_walk.h
+--- Function to test properties of the random walk model used in final.cpp
+
+Source Code/p_neighbors.h
+--- Function to calculate and return the probability (as a function of neighboring 
+	particles)of a particle sticking to the aggregate
+
+Source Code/p_curvature.h
+--- Function to calculate and return the probability (as a function of local
+	curvature of the aggregrate) of a particle sticking to the aggregate
+
+Source Code/p_coeff.h
+--- Function to calculate and return the probability (as a constant-valued 
+	function) of a particle sticking to the aggregate
+
+Source Code/arrayt.hpp
+--- C++ array implementation supplied by professor (not authored by me)
+
+Source Code/MATLAB (plotting)/circularity.m 
+--- Script to calculate circularity of aggregate structure
+
+Source Code/MATLAB (plotting)/plott2.m
+--- Script to read output data file containing particle locations and produce plot
+	of aggregrate and calculate property values of the simulation
+
+Source Code/MATLAB (plotting)/rwalkstest.m 
+--- Script to analyze output data from r_walk.h
+
+LaTex Write Up/Final Project.tex 
+--- LaTeX file for project report
+
+LaTex Write Up/Final Project.bbl
+--- BibTeX file containing bibliographic information for report
+
+
+
 
 
