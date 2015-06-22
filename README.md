@@ -13,6 +13,8 @@ formation processes. The goal of this project is to study the effectiveness and
 limitations of the numerical model in simulating the process of Diffusion 
 Limited Aggregation.
 
+(See full project report in pdf file: *Modeling Diffusion Limited Aggregation*)
+
 
 Operation Instructions:
 -------------------------------------------------------------------------------
